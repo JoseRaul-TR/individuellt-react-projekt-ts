@@ -4,9 +4,6 @@ export type Task = {
     description?: string;
     columnId: string;
     createdAt: string; // Date ISO
-    // Optionals for extra challenge
-    archived?: boolean;
-    assignees?: string[]; // Users ids
 };
 
 export type Column = {
