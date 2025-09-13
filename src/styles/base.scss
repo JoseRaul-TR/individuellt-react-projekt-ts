@@ -1,0 +1,22 @@
+@use "variables" as *;
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: Inter, Arial, sans-serif;
+    background: $bg;
+    color: #111;
+}
+
+.app-header {
+    padding: 12px 12px;
+    h1 {
+        margin: 0;
+        font-size: 20px;
+    }
+}
+
+.app-main {
+    padding: 24px;
+}

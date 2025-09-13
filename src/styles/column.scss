@@ -1,0 +1,42 @@
+@use "variables" as *;
+
+.column-wrapper {
+    min-height: 400px;
+}
+
+.column-wrapper {
+    background: $column-bg;
+    border-radius: $radius;
+    padding: 12px;
+    box-shadow: $shadow;
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+}
+
+.column-header {
+    margin-bottom: 8px;
+    h3 {
+        margin: 0;
+    }
+}
+
+.tasks-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+}
+
+.column-footer {
+    margin-top: 12px;
+
+    .btn-add {
+        width: 100%;
+        padding: 10px;
+        border-radius: 8px;
+        background: transparent;
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        cursor: pointer;
+    }
+}

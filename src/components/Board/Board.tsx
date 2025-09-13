@@ -1,4 +1,5 @@
-import { DndContext, DragEndEvent } from "@dnd-kit/core";
+import { DndContext } from "@dnd-kit/core";
+import type { DragEndEvent } from "@dnd-kit/core"
 import { useBoard } from "../../context/BoardContext";
 import Column from "./Column";
 
