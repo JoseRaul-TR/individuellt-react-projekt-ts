@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import ColumnView from "./pages/ColumnView";
 import NotFound from "./pages/NotFound";
 import TaskView from "./pages/TaskView";
+import Footer from "./components/Footer";
 
 function App() {
   const location = useLocation();
@@ -11,7 +12,7 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <h1>Kanban Board</h1>
+        <h1>TaskBoard</h1>
       </header>
 
       {/* Render main routes */}
@@ -29,6 +30,8 @@ function App() {
           <Route path="/task/:taskId" element={<TaskView />} />
         </Routes>
       )}
+
+      <Footer />
     </div>
   );
 }

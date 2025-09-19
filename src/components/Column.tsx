@@ -1,9 +1,5 @@
 import { useState } from "react";
-import {
-  SortableContext,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { useDroppable } from "@dnd-kit/core";
+import { Droppable, Draggable } from "@hello-pangea/dnd";
 import { useBoard } from "../context/BoardContext";
 import TaskCard from "./TaskCard";
 import { Link } from "react-router-dom";
@@ -11,7 +7,6 @@ import { Link } from "react-router-dom";
 export default function Column({ columnId }: { columnId: string }) {
   const { state, dispatch } = useBoard();
   const column = state.columns[columnId];
-  const { setNodeRef } = useDroppable({ id: `column-${columnId}` });
 
   const [creating, setCreating] = useState(false);
   const [title, setTitle] = useState("");
@@ -24,25 +19,41 @@ export default function Column({ columnId }: { columnId: string }) {
   };
 
   return (
-    <div className="column-wrapper" ref={setNodeRef}>
+    <div className="column-wrapper">
       <div className="column">
         <div className="column-header">
           <h3>{column.title}</h3>
           <Link to={`/column/${columnId}`}>Visa</Link>
         </div>
 
-        <SortableContext
-          items={column.taskIds}
-          strategy={verticalListSortingStrategy}
-        >
-          <div className="tasks-list">
-            {column.taskIds.map((taskId) => {
-              const task = state.tasks[taskId];
-              if (!task) return null;
-              return <TaskCard key={taskId} task={task} />;
-            })}
-          </div>
-        </SortableContext>
+        <Droppable droppableId={columnId}>
+          {(provided) => (
+            <div
+            className="tasks-list"
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+            >
+              {column.taskIds.map((taskId, index) => {
+                const task = state.tasks[taskId];
+                if (!task) return null;
+                return (
+                  <Draggable key={taskId} draggableId={taskId} index={index}>
+                    {(provided) => (
+                      <div
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                      >
+                        <TaskCard task={task} />
+                      </div>
+                    )}
+                  </Draggable>
+                );
+              })}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
 
         <div className="column-footer">
           {!creating ? (

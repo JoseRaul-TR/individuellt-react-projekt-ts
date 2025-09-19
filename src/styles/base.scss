@@ -1,25 +1,41 @@
 @use "variables" as *;
 
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
 body {
-    margin: 0;
-    font-family: Inter, Arial, sans-serif;
-    background: $bg;
-    color: #111;
+  margin: 0;
+  font-family: Inter, Arial, sans-serif;
+  background: $bg;
+  color: #111;
+  min-height: 100vh;
+  min-width: 100vw;
 }
 
 .app-header {
-    padding: 20px;
-    text-align: center;
-    background: white;
-    box-shadow: $shadow;
-    h1 {
-        margin: 0;
-        font-size: 20px;
-    }
+  padding: 20px;
+  text-align: center;
+  background: white;
+  box-shadow: $shadow;
+  h1 {
+    margin: 0;
+    font-size: 20px;
+  }
 }
 
 .app-main {
-    padding: 24px;
+  padding: 24px;
+}
+
+footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 5px;
+  background: white;
+  box-shadow: $shadow;
 }

@@ -1,60 +1,48 @@
-import { DndContext } from "@dnd-kit/core";
-import type { DragEndEvent } from "@dnd-kit/core"
+import { DragDropContext } from "@hello-pangea/dnd";
+import type { DropResult } from "@hello-pangea/dnd";
 import { useBoard } from "../context/BoardContext";
 import Column from "./Column";
 
 export default function Board() {
-    const { state, dispatch } = useBoard();
+  const { state, dispatch } = useBoard();
 
-    function findColumnByTaskId(taskId: string) {
-        const entries = Object.entries(state.columns);
-        for (const [colId, col] of entries) {
-            if (col.taskIds.includes(taskId)) return colId;
-        }
-        return null;
+  // Main handler for drag and drop events.
+  const onDragEnd = (result: DropResult) => {
+    // Destructure the neccesary properties from the imported type "DropResult" from "@hello-pangea/dnd"
+    const { source, destination, draggableId } = result;
+
+    // A. Dropped outside of any droppable area
+    if (!destination) {
+      return;
     }
 
-    const handleDragEnd = (event: DragEndEvent) => {
-        const activeId = String(event.active.id);
-        const over = event.over?.id;
-        if (!over) return;
-        const overId = String(over);
+    // B. Dropped in the same place were started
+    if (
+      source.droppableId === destination.droppableId &&
+      source.index === destination.index
+    ) {
+      return;
+    }
 
-        const sourceColumnId = findColumnByTaskId(activeId);
-        if (!sourceColumnId) return;
+    // C. Perform the move
+    dispatch({
+      type: "MOVE_TASK",
+      payload: {
+        taskId: draggableId,
+        sourceColumnId: source.droppableId,
+        destColumnId: destination.droppableId,
+        destIndex: destination.index,
+      },
+    });
+  };
 
-        let destColumnId: string | null = null;
-        let destIndex = 0;
-
-        // If dropping on a column droppable zone (id like 'column-col-1')
-        if (overId.startsWith('column-')) {
-            destColumnId = overId.replace('column-', '');
-            destIndex = state.columns[destColumnId].taskIds.length;
-        } else {
-            // overId is a taskId, insert before that task
-            destColumnId = findColumnByTaskId(overId);
-            if (!destColumnId) return;
-            destIndex = state.columns[destColumnId].taskIds.indexOf(overId);
-        }
-
-        dispatch({
-            type: 'MOVE_TASK',
-            payload: {
-                taskId: activeId,
-                sourceColumnId,
-                destColumnId,
-                destIndex
-            },
-        });
-    };
-
-    return (
-        <DndContext onDragEnd={handleDragEnd}>
-            <div className="board">
-                {state.columnOrder.map((colId) => (
-                    <Column key={colId} columnId={colId} />
-                ))}
-            </div>
-        </DndContext>
-    );
+  return (
+    <DragDropContext onDragEnd={onDragEnd}>
+      <section className="board">
+        {state.columnOrder.map((colId) => (
+          <Column key={colId} columnId={colId} />
+        ))}
+      </section>
+    </DragDropContext>
+  );
 }
