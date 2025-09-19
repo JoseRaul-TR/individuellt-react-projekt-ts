@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, useContext, useEffect } from "react";
+import React, { createContext, useReducer, useEffect } from "react";
 import type { BoardState, Task, Column } from "../types/types";
 import { userId } from "../utils/id";
 import { useLocalStorage } from "../hooks/useLocalStorage";
@@ -58,19 +58,7 @@ const sampleState: BoardState = {
   columnOrder: ["col-1", "col-2", "col-3"],
 };
 
-const BoardContext = createContext<{ state: BoardState; dispatch: React.Dispatch<Action> } | null>(null);
-
-function removeFromArray(arr: string[], index: number) {
-  const copy = arr.slice();
-  copy.splice(index, 1);
-  return copy;
-}
-
-function insertIntoArray(arr: string[], index: number, value: string) {
-  const copy = arr.slice();
-  copy.splice(index, 0, value);
-  return copy;
-}
+export const BoardContext = createContext<{ state: BoardState; dispatch: React.Dispatch<Action> } | null>(null);
 
 function boardReducer(state: BoardState, action: Action): BoardState {
   switch (action.type) {
@@ -133,37 +121,18 @@ function boardReducer(state: BoardState, action: Action): BoardState {
         action.payload;
       if (!state.columns[sourceColumnId] || !state.columns[destColumnId])
         return state;
+      const newColumns = { ...state.columns };
 
-      const sourceList = state.columns[sourceColumnId].taskIds;
-      const destList = state.columns[destColumnId].taskIds;
+      // Remove task from its source column
+      const sourceTasks = [...newColumns[sourceColumnId].taskIds];
+      const sourceIndex =sourceTasks.indexOf(taskId);
+      sourceTasks.splice(sourceIndex, 1);
+      newColumns[sourceColumnId] = { ...newColumns[sourceColumnId], taskIds: sourceTasks };
 
-      const sourceIndex = sourceList.indexOf(taskId);
-      if (sourceIndex === -1) return state;
-
-      // Remove from source
-      const newSource = removeFromArray(sourceList, sourceIndex);
-
-      // Insert into dest (if moving within the same column and destination index should account for removal)
-      let newDest = destList.slice();
-      if (sourceColumnId === destColumnId) {
-        // moving inside same list
-        newDest = removeFromArray(destList, sourceIndex);
-        newDest = insertIntoArray(newDest, destIndex, taskId);
-      } else {
-        newDest = insertIntoArray(destList, destIndex, taskId);
-      }
-
-      const newColumns = {
-        ...state.columns,
-        [sourceColumnId]: {
-          ...state.columns[sourceColumnId],
-          taskIds: newSource,
-        },
-        [destColumnId]: {
-          ...state.columns[destColumnId],
-          taskIds: newDest,
-        },
-      };
+      // Add task to its destination column
+      const destTask = [...newColumns[destColumnId].taskIds];
+      destTask.splice(destIndex, 0, taskId);
+      newColumns[destColumnId] = { ...newColumns[destColumnId], taskIds: destTask };
 
       // Update task's columnId
       const updatedTask = { ...state.tasks[taskId], columnId: destColumnId };
@@ -230,10 +199,4 @@ export const BoardProvider: React.FC<{ children: React.ReactNode }> = ({
       {children}
     </BoardContext.Provider>
   );
-};
-
-export const useBoard = () => {
-  const ctx = useContext(BoardContext);
-  if (!ctx) throw new Error("useBoard must be used inside BoardProvider");
-  return ctx;
 };

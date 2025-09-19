@@ -1,22 +1,19 @@
 import { useState } from "react";
 import { Droppable, Draggable } from "@hello-pangea/dnd";
-import { useBoard } from "../context/BoardContext";
+import { useBoard } from "../hooks/useBoard";
 import TaskCard from "./TaskCard";
+import NewTaskForm from "./NewTaskForm";
 import { Link } from "react-router-dom";
 
-export default function Column({ columnId }: { columnId: string }) {
-  const { state, dispatch } = useBoard();
+interface ColumnProps {
+  columnId: string;
+}
+
+export default function Column({ columnId }: ColumnProps) {
+  const { state } = useBoard();
   const column = state.columns[columnId];
 
   const [creating, setCreating] = useState(false);
-  const [title, setTitle] = useState("");
-
-  const create = () => {
-    if (!title.trim()) return;
-    dispatch({ type: "ADD_TASK", payload: { columnId, title: title.trim() } });
-    setTitle("");
-    setCreating(false);
-  };
 
   return (
     <div className="column-wrapper">
@@ -29,9 +26,9 @@ export default function Column({ columnId }: { columnId: string }) {
         <Droppable droppableId={columnId}>
           {(provided) => (
             <div
-            className="tasks-list"
-            ref={provided.innerRef}
-            {...provided.droppableProps}
+              className="tasks-list"
+              ref={provided.innerRef}
+              {...provided.droppableProps}
             >
               {column.taskIds.map((taskId, index) => {
                 const task = state.tasks[taskId];
@@ -40,9 +37,9 @@ export default function Column({ columnId }: { columnId: string }) {
                   <Draggable key={taskId} draggableId={taskId} index={index}>
                     {(provided) => (
                       <div
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
                       >
                         <TaskCard task={task} />
                       </div>
@@ -61,17 +58,10 @@ export default function Column({ columnId }: { columnId: string }) {
               Lägga till en ny uppgift
             </button>
           ) : (
-            <div className="new-form">
-              <input
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                placeholder="Upgift titel..."
-              />
-              <div>
-                <button onClick={create}>Skapa</button>
-                <button onClick={() => setCreating(false)}>Avbryt</button>
-              </div>
-            </div>
+            <NewTaskForm
+              columnId={columnId}
+              onCancel={() => setCreating(false)}
+            />
           )}
         </div>
       </div>

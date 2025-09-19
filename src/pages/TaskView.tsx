@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useBoard } from "../context/BoardContext";
+import { useBoard } from "../hooks/useBoard";
 import TaskModal from "../components/TaskModal";
 
 export default function TaskView() {

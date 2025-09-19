@@ -1,5 +1,5 @@
 import { useParams, Link } from "react-router-dom";
-import { useBoard } from "../context/BoardContext";
+import { useBoard } from "../hooks/useBoard";
 import Column from "../components/Column";
 
 const ColumnView = () => {

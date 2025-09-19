@@ -1,6 +1,6 @@
 import { DragDropContext } from "@hello-pangea/dnd";
 import type { DropResult } from "@hello-pangea/dnd";
-import { useBoard } from "../context/BoardContext";
+import { useBoard } from "../hooks/useBoard";
 import Column from "./Column";
 
 export default function Board() {
