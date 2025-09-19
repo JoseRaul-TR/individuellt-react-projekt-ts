@@ -1,10 +1,11 @@
 import { useParams, Link } from "react-router-dom";
-import Column from "../components/Board/Column";
 import { useBoard } from "../context/BoardContext";
+import Column from "../components/Column";
 
-export default function ColumnView() {
+const ColumnView = () => {
   const { columnId } = useParams<{ columnId: string }>();
   const { state } = useBoard();
+
   if (!columnId || !state.columns[columnId]) {
     return (
       <div>
@@ -15,10 +16,12 @@ export default function ColumnView() {
 
   return (
     <div className="page column-view">
-      <Link to="/">Till board</Link>
+      <Link to="/">← Back to board</Link>
       <div style={{ display: "flex", gap: 20, paddingTop: 20 }}>
         <Column columnId={columnId} />
       </div>
     </div>
   );
-}
+};
+
+export default ColumnView;

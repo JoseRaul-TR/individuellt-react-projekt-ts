@@ -1,42 +1,49 @@
 @use "variables" as *;
+@use "sass:color";
 
 .column-wrapper {
-    min-height: 400px;
-}
-
-.column-wrapper {
-    background: $column-bg;
-    border-radius: $radius;
-    padding: 12px;
-    box-shadow: $shadow;
-    min-height: 320px;
-    display: flex;
-    flex-direction: column;
+  background: $column-bg;
+  border-radius: $radius;
+  padding: 12px;
+  box-shadow: $shadow;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
 }
 
 .column-header {
-    margin-bottom: 8px;
-    h3 {
-        margin: 0;
-    }
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  h3 {
+    margin: 0;
+  }
 }
 
 .tasks-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
 }
 
 .column-footer {
-    margin-top: 12px;
+  margin-top: 12px;
 
-    .btn-add {
-        width: 100%;
-        padding: 10px;
-        border-radius: 8px;
-        background: transparent;
-        border: 1px solid rgba(0, 0, 0, 0.06);
-        cursor: pointer;
+  .btn-add {
+    width: 100%;
+    padding: 10px;
+    border-radius: $radius;
+    background: $accent;
+    color: white;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s;
+
+    &:hover {
+      background: color.scale($accent, $lightness: -7%);
     }
+  }
 }

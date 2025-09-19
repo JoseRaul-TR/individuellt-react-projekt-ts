@@ -4,7 +4,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { useDroppable } from "@dnd-kit/core";
-import { useBoard } from "../../context/BoardContext";
+import { useBoard } from "../context/BoardContext";
 import TaskCard from "./TaskCard";
 import { Link } from "react-router-dom";
 
@@ -18,7 +18,7 @@ export default function Column({ columnId }: { columnId: string }) {
 
   const create = () => {
     if (!title.trim()) return;
-    dispatch({ type: "ADD_TASK", playload: { columnId, title: title.trim() } });
+    dispatch({ type: "ADD_TASK", payload: { columnId, title: title.trim() } });
     setTitle("");
     setCreating(false);
   };
@@ -36,16 +36,18 @@ export default function Column({ columnId }: { columnId: string }) {
           strategy={verticalListSortingStrategy}
         >
           <div className="tasks-list">
-            {column.taskIds.map((taskId) => (
-              <TaskCard key={taskId} taskId={taskId} />
-            ))}
+            {column.taskIds.map((taskId) => {
+              const task = state.tasks[taskId];
+              if (!task) return null;
+              return <TaskCard key={taskId} task={task} />;
+            })}
           </div>
         </SortableContext>
 
         <div className="column-footer">
           {!creating ? (
             <button className="btn-add" onClick={() => setCreating(true)}>
-              Lägga till ny uppgift
+              Lägga till en ny uppgift
             </button>
           ) : (
             <div className="new-form">

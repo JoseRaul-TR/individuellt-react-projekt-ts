@@ -1,25 +1,27 @@
-import React, { createContext, useReducer, useContext } from "react";
-import type { BoardState, Task } from "../types";
+import React, { createContext, useReducer, useContext, useEffect } from "react";
+import type { BoardState, Task, Column } from "../types/types";
 import { userId } from "../utils/id";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 
 type Action =
   | {
       type: "ADD_TASK";
-      playload: { columnId: string; title: string; description?: string };
+      payload: { columnId: string; title: string; description?: string };
     }
-  | { type: "UPDATE_TASK"; playload: { task: Task } }
-  | { type: "DELETE_TASK"; playload: { taskId: string } }
+  | { type: "UPDATE_TASK"; payload: { task: Task } }
+  | { type: "DELETE_TASK"; payload: { taskId: string } }
   | {
       type: "MOVE_TASK";
-      playload: {
+      payload: {
         taskId: string;
         sourceColumnId: string;
         destColumnId: string;
         destIndex: number;
       };
     }
-  | { type: "SET_STATE"; playload: BoardState };
+  | { type: "ADD_COLUMN"; payload: { title: string } }
+  | { type: "DELETE_COLUMN"; payload: { columnId: string } }
+  | { type: "SET_STATE"; payload: BoardState };
 
 const sampleState: BoardState = {
   tasks: {
@@ -77,9 +79,9 @@ function boardReducer(state: BoardState, action: Action): BoardState {
       const createdAt = new Date().toISOString().slice(0, 10);
       const task: Task = {
         id,
-        title: action.playload.title,
-        description: action.playload.description ?? "",
-        columnId: action.playload.columnId,
+        title: action.payload.title,
+        description: action.payload.description ?? "",
+        columnId: action.payload.columnId,
         createdAt,
       };
       return {
@@ -87,16 +89,16 @@ function boardReducer(state: BoardState, action: Action): BoardState {
         tasks: { ...state.tasks, [id]: task },
         columns: {
           ...state.columns,
-          [action.playload.columnId]: {
-            ...state.columns[action.playload.columnId],
-            taskIds: [...state.columns[action.playload.columnId].taskIds, id],
+          [action.payload.columnId]: {
+            ...state.columns[action.payload.columnId],
+            taskIds: [...state.columns[action.payload.columnId].taskIds, id],
           },
         },
       };
     }
 
     case "UPDATE_TASK": {
-      const t = action.playload.task;
+      const t = action.payload.task;
       return {
         ...state,
         tasks: {
@@ -107,7 +109,7 @@ function boardReducer(state: BoardState, action: Action): BoardState {
     }
 
     case "DELETE_TASK": {
-      const taskId = action.playload.taskId;
+      const taskId = action.payload.taskId;
       const task = state.tasks[taskId];
       if (!task) return state;
       const column = state.columns[task.columnId];
@@ -128,7 +130,7 @@ function boardReducer(state: BoardState, action: Action): BoardState {
 
     case "MOVE_TASK": {
       const { taskId, sourceColumnId, destColumnId, destIndex } =
-        action.playload;
+        action.payload;
       if (!state.columns[sourceColumnId] || !state.columns[destColumnId])
         return state;
 
@@ -155,7 +157,7 @@ function boardReducer(state: BoardState, action: Action): BoardState {
         ...state.columns,
         [sourceColumnId]: {
           ...state.columns[sourceColumnId],
-          taskId: newSource,
+          taskIds: newSource,
         },
         [destColumnId]: {
           ...state.columns[destColumnId],
@@ -163,7 +165,7 @@ function boardReducer(state: BoardState, action: Action): BoardState {
         },
       };
 
-      // update task's columnId
+      // Update task's columnId
       const updatedTask = { ...state.tasks[taskId], columnId: destColumnId };
 
       return {
@@ -176,8 +178,33 @@ function boardReducer(state: BoardState, action: Action): BoardState {
       };
     }
 
+    case "ADD_COLUMN": {
+      const id = userId("col-");
+      const newColumn: Column = { id, title: action.payload.title, taskIds: [] };
+      return {
+        ...state,
+        columns: { ...state.columns, [id]: newColumn },
+        columnOrder: [...state.columnOrder, id],
+      };
+    }
+
+    case "DELETE_COLUMN": {
+      const { columnId } = action.payload;
+      const { [columnId]: _, ...rest } = state.columns;
+      return {
+        ...state,
+        columns: rest,
+        columnOrder: state.columnOrder.filter((c) => c !== columnId),
+        tasks: Object.fromEntries(
+          Object.entries(state.tasks).filter(
+            ([, task]) => task.columnId !== columnId
+          )
+        ),
+      };
+    }
+
     case "SET_STATE":
-      return action.playload;
+      return action.payload;
 
     default:
       return state;
@@ -194,7 +221,7 @@ export const BoardProvider: React.FC<{ children: React.ReactNode }> = ({
   const [state, dispatch] = useReducer(boardReducer, stored);
 
   // sync reducer state with localStorage
-  React.useEffect(() => {
+  useEffect(() => {
     setStored(state);
   }, [state, setStored]);
 

@@ -1,6 +1,6 @@
 import { DndContext } from "@dnd-kit/core";
 import type { DragEndEvent } from "@dnd-kit/core"
-import { useBoard } from "../../context/BoardContext";
+import { useBoard } from "../context/BoardContext";
 import Column from "./Column";
 
 export default function Board() {
@@ -39,7 +39,7 @@ export default function Board() {
 
         dispatch({
             type: 'MOVE_TASK',
-            playload: {
+            payload: {
                 taskId: activeId,
                 sourceColumnId,
                 destColumnId,
