@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { Droppable, Draggable } from "@hello-pangea/dnd";
 import { useBoard } from "../hooks/useBoard";
-import TaskCard from "./TaskCard";
 import NewTaskForm from "./NewTaskForm";
 import { useNavigate, useLocation } from "react-router-dom";
+import TasksList from "./TasksList";
 
 interface ColumnProps {
   columnId: string;
@@ -44,51 +43,11 @@ export default function Column({
           </button>
         </div>
 
-        {/* Tasks */}
-        {draggable ? (
-          // Drag & Drop enabled for board view
-          <Droppable droppableId={columnId}>
-            {(provided) => (
-              <div
-                className="tasks-list"
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-              >
-                {column.taskIds.map((taskId, index) => {
-                  const task = state.tasks[taskId];
-                  if (!task) return null;
-                  return (
-                    <Draggable key={taskId} draggableId={taskId} index={index}>
-                      {(provided, snapshot) => (
-                        <TaskCard
-                          task={task}
-                          provided={provided}
-                          snapshot={snapshot}
-                        />
-                      )}
-                    </Draggable>
-                  );
-                })}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-        ) : (
-          // Static list for modals
-          <div className="tasks-list">
-            {column.taskIds.map((taskId) => {
-              const task = state.tasks[taskId];
-              if (!task) return null;
-              return (
-                <div key={taskId} className="task-card">
-                  <h4>{task.title}</h4>
-                  {showDescriptions && <p>{task.description}</p>}
-                  <small>{task.createdAt}</small>
-                </div>
-              );
-            })}
-          </div>
-        )}
+        <TasksList
+          columnId={columnId}
+          draggable={draggable}
+          showDescriptions={showDescriptions}
+        />
 
         <div className="column-footer">
           {!creating ? (

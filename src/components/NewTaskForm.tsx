@@ -2,31 +2,58 @@ import { useState } from "react";
 import { useBoard } from "../hooks/useBoard";
 
 interface NewTaskFormProps {
-    columnId: string;
-    onCancel: () => void;
+  columnId: string;
+  onCancel: () => void;
 }
 export default function NewTaskForm({ columnId, onCancel }: NewTaskFormProps) {
   const { dispatch } = useBoard();
   const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
 
-  const create = () => {
-    if (!title.trim()) return;
-    dispatch({ type: "ADD_TASK", payload: { columnId, title: title.trim() } });
-    setTitle("");
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (title.trim() === "") {
+      return;
+    }
+
+    const newTask = {
+      title,
+      description,
+      createdAt: new Date().toLocaleDateString(),
+    };
+
+    dispatch({
+      type: "ADD_TASK",
+      payload: {
+        columnId,
+        task: newTask,
+      },
+    });
+
     onCancel();
   };
 
   return (
-    <div className="new-form">
+    <form className="new-task-form" onSubmit={handleSubmit}>
       <input
+        type="text"
         value={title}
-        onChange={(e) => setTitle(e.target.value)}
         placeholder="Upgift titel..."
+        onChange={(e) => setTitle(e.target.value)}
       />
-      <div>
-        <button onClick={create}>Skapa</button>
-        <button onClick={onCancel}>Avbryt</button>
+      <textarea
+        placeholder="Uppgiftens beskrivning"
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+      />
+      <div className="form-actions">
+        <button type="submit" className="btn-save">
+          Lägg till
+        </button>
+        <button type="button" onClick={onCancel} className="btn-cancel">
+          Avbryt
+        </button>
       </div>
-    </div>
+    </form>
   );
 }
