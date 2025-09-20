@@ -1,21 +1,29 @@
 @use "variables" as *;
+@use "sass:color";
 
 .task-card {
-    background: $glass-bg;
-    border: 1px solid $glass-border;
-    backdrop-filter: blur(8px) saturate(180%);
-    padding: 1em 1.5em;
-    border-radius: $radius;
-    box-shadow: $glass-shadow-outer, $glass-shadow-inner;
-    cursor: grab;
+  background: $glass-bg;
+  border: 1px solid $glass-border;
+  backdrop-filter: blur(8px) saturate(180%);
+  padding: 1em 1.5em;
+  border-radius: $radius;
+  box-shadow: $glass-shadow-outer, $glass-shadow-inner;
+  cursor: grab;
 
-    h4 {
-        margin: 0 0 6px 0;
-        color: #222;
-    }
+  h4 {
+    margin: 0 0 6px 0;
+    color: #222;
+  }
 
-    small {
-        color: #666;
-        font-size: 0.8rem;
-    }
+  small {
+    color: #666;
+    font-size: 0.8rem;
+  }
+}
+
+.is-dragging {
+  transform: scale(0.95);
+  background-color: color.scale($accent, $alpha: -50%);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  z-index: 9999;
 }

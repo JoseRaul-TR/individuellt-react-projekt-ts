@@ -1,6 +1,6 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
-import ColumnView from "./pages/ColumnView";
+import ColumnView from "./pages/ColumnModal";
 import NotFound from "./pages/NotFound";
 import TaskView from "./pages/TaskView";
 import Footer from "./components/Footer";

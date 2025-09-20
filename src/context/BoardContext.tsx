@@ -29,23 +29,29 @@ const sampleState: BoardState = {
       id: "t1",
       title: "Vattna blommorna",
       columnId: "col-1",
+      description: "Stå inte bara där, dina växter är törstiga.",
       createdAt: "2025-09-12",
     },
     t2: {
       id: "t2",
       title: "Slänga soporna",
       columnId: "col-3",
+      description:
+        "Ditt hem kräver att du får ett slut på dess stinkande lidande.",
       createdAt: "2025-09-13",
     },
     t3: {
       id: "t3",
       title: "Plugga JavaScript 🤓",
+      description: "Omfamna semikolonen, för de är ditt öde.",
       columnId: "col-2",
       createdAt: "2025-05-01",
     },
     t4: {
       id: "t4",
       title: "Plugga TypeScript 🤯",
+      description:
+        "Förbered dig på en resa ner i avgrunden av stark skrivning.",
       columnId: "col-2",
       createdAt: "2025-08-22",
     },
@@ -58,7 +64,10 @@ const sampleState: BoardState = {
   columnOrder: ["col-1", "col-2", "col-3"],
 };
 
-export const BoardContext = createContext<{ state: BoardState; dispatch: React.Dispatch<Action> } | null>(null);
+export const BoardContext = createContext<{
+  state: BoardState;
+  dispatch: React.Dispatch<Action>;
+} | null>(null);
 
 function boardReducer(state: BoardState, action: Action): BoardState {
   switch (action.type) {
@@ -125,14 +134,20 @@ function boardReducer(state: BoardState, action: Action): BoardState {
 
       // Remove task from its source column
       const sourceTasks = [...newColumns[sourceColumnId].taskIds];
-      const sourceIndex =sourceTasks.indexOf(taskId);
+      const sourceIndex = sourceTasks.indexOf(taskId);
       sourceTasks.splice(sourceIndex, 1);
-      newColumns[sourceColumnId] = { ...newColumns[sourceColumnId], taskIds: sourceTasks };
+      newColumns[sourceColumnId] = {
+        ...newColumns[sourceColumnId],
+        taskIds: sourceTasks,
+      };
 
       // Add task to its destination column
       const destTask = [...newColumns[destColumnId].taskIds];
       destTask.splice(destIndex, 0, taskId);
-      newColumns[destColumnId] = { ...newColumns[destColumnId], taskIds: destTask };
+      newColumns[destColumnId] = {
+        ...newColumns[destColumnId],
+        taskIds: destTask,
+      };
 
       // Update task's columnId
       const updatedTask = { ...state.tasks[taskId], columnId: destColumnId };
@@ -149,7 +164,11 @@ function boardReducer(state: BoardState, action: Action): BoardState {
 
     case "ADD_COLUMN": {
       const id = userId("col-");
-      const newColumn: Column = { id, title: action.payload.title, taskIds: [] };
+      const newColumn: Column = {
+        id,
+        title: action.payload.title,
+        taskIds: [],
+      };
       return {
         ...state,
         columns: { ...state.columns, [id]: newColumn },

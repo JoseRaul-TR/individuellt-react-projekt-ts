@@ -1,11 +1,14 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import type { Task } from "../types/types";
+import type { DraggableProvided, DraggableStateSnapshot } from "@hello-pangea/dnd";
 
 interface TaskCardProps {
   task: Task;
+  provided: DraggableProvided;
+  snapshot: DraggableStateSnapshot;
 }
 
-const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
+export default function TaskCard({ task, provided, snapshot }: TaskCardProps) {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -14,11 +17,15 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
   };
 
   return (
-    <div className="task-card" onClick={handleClick}>
-      <h4>{task.title}</h4>
-      <small>{task.createdAt}</small>
+    <div
+      className={`task-card ${snapshot.isDragging ? "is-dragging" : ""}`}
+      onClick={handleClick}
+      ref={provided.innerRef}
+      {...provided.draggableProps}
+      {...provided.dragHandleProps}
+    >
+      <h4 className="task-title">{task.title}</h4>
+      <small className="task-date">{task.createdAt}</small>
     </div>
   );
-};
-
-export default TaskCard;
+}

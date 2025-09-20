@@ -1,58 +1,32 @@
-import { useState } from "react";
-import type { Task } from "../types/types";
+import { useParams, useNavigate } from "react-router-dom";
+import { useBoard } from "../hooks/useBoard";
 
-interface TaskModalProps {
-  task: Task;
-  onClose: () => void;
-  onSave: (updates: Partial<Task>) => void;
-  onDelete: () => void;
-}
+export default function TaskModal() {
+  const { taskId } = useParams<{ taskId: string }>();
+  const { state } = useBoard();
+  const navigate = useNavigate();
 
-export default function TaskModal({
-  task,
-  onClose,
-  onSave,
-  onDelete,
-}: TaskModalProps) {
-  const [title, setTitle] = useState(task.title);
-  const [description, setDecription] = useState(task.description || "");
+  const task = taskId ? state.tasks[taskId] : null;
+
+  if (!task) return null;
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
+    <div className="modal-overlay" onClick={() => navigate(-1)}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
-        <h3>Redigera uppgift</h3>
-
-        <label>
-          Titel:
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-        </label>
-
-        <label>
-          Beskrivning:
-          <textarea
-            value={description}
-            onChange={(e) => setDecription(e.target.value)}
-          />
-        </label>
-
-        <div className="modal-actions">
-          <button
-            className="btn-save"
-            onClick={() => onSave({ title, description })}
-          >
-            Spara
+        <div className="modal-header">
+          <h2>{task.title}</h2>
+          <button className="btn-close" onClick={() => navigate(-1)}>
+            &close;
           </button>
+        </div>
 
-          <button className="btn-delete" onClick={onDelete}>
-            Ta bort
-          </button>
-          <button className="btn-close" onClick={onClose}>
-            Stäng
-          </button>
+        <div className="modal-content">
+          <p className="task-description">
+            <strong>{task.description}</strong>
+          </p>
+          <p className="task-date">
+            <small>{task.createdAt}</small>
+          </p>
         </div>
       </div>
     </div>

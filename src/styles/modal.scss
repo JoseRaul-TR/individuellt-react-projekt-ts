@@ -19,12 +19,14 @@
   border-radius: $radius;
   width: 420px;
   max-width: calc(100% - 32px);
+  overflow-y: auto;
 }
 
 .modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 1rem;
 }
 
 .btn-close {
