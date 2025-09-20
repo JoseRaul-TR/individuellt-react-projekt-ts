@@ -14,23 +14,23 @@ function App() {
       <header className="app-header">
         <h1>TaskBoard</h1>
       </header>
-
-      {/* Render main routes */}
-      <Routes location={state?.background || location}>
-        <Route path="/" element={<Home />} />
-        <Route path="/column/:columnId" element={<ColumnView />} />
-        <Route path="*" element={<NotFound />} />
-        {/* Fallback in case refresh happens in /task/:taskId */}
-        <Route path="/task/:taskId" element={<TaskView />} />
-      </Routes>
-
-      {/* Render the task modal on top of the actual view */}
-      {state?.background && (
-        <Routes>
+      <main className="app-main">
+        {/* Render main routes */}
+        <Routes location={state?.background || location}>
+          <Route path="/" element={<Home />} />
+          <Route path="/column/:columnId" element={<ColumnView />} />
+          <Route path="*" element={<NotFound />} />
+          {/* Fallback in case refresh happens in /task/:taskId */}
           <Route path="/task/:taskId" element={<TaskView />} />
         </Routes>
-      )}
 
+        {/* Render the task modal on top of the actual view */}
+        {state?.background && (
+          <Routes>
+            <Route path="/task/:taskId" element={<TaskView />} />
+          </Routes>
+        )}
+      </main>
       <Footer />
     </div>
   );

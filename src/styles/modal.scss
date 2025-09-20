@@ -11,9 +11,12 @@
 }
 
 .modal {
-    background: #fff;
-    padding: 16px;
-    border-radius: 10px;
+    background: $glass-bg;
+    border: 1px solid $glass-border;
+    backdrop-filter: blur(20px) saturate(180%);
+    box-shadow: $glass-shadow-outer;
+    padding: 1.2em;
+    border-radius: $radius;
     width: 420px;
     max-width: calc(100% - 32px);
 }

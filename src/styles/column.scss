@@ -2,17 +2,26 @@
 @use "sass:color";
 
 .column-wrapper {
-  background: $column-bg;
+  background: $glass-bg;
+  border: 1px solid $glass-border;
+  backdrop-filter: blur(10px) saturate(180%);
   border-radius: $radius;
-  padding: 12px;
-  box-shadow: $shadow;
-  height: 100%;
+  box-shadow: $glass-shadow-outer, $glass-shadow-inner;
+  flex: 1;
   display: flex;
   flex-direction: column;
+  min-height: 0;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1em;
 }
 
 .column-header {
-  margin-bottom: 8px;
+  margin-bottom: 0.7em;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -24,15 +33,16 @@
 .tasks-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 1em;
   flex: 1;
+  overflow-y: auto;
 }
 
 .column-footer {
-  margin-top: 12px;
+  margin-top: 1em;
   .btn-add {
     width: 100%;
-    padding: 10px;
+    padding: 0.9em;
     border-radius: $radius;
     background: $accent;
     color: white;

@@ -2,8 +2,8 @@ import Board from "../components/Board";
 
 export default function Home() {
   return (
-    <main className="page home-page">
+    <div className="page-wrapper home-page">
       <Board />
-    </main>
+    </div>
   );
 }

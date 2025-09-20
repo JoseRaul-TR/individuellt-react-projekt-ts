@@ -6,28 +6,49 @@
   padding: 0;
 }
 
+html,
+body,
+#root,
+.app {
+  min-height: 100%;
+}
+
 body {
   margin: 0;
   font-family: Inter, Arial, sans-serif;
   background: $bg;
   color: #111;
-  min-height: 100vh;
   min-width: 100vw;
+  display: flex;
+  flex-direction: column;
 }
 
 .app-header {
-  padding: 20px;
+  padding: 1.2em;
   text-align: center;
-  background: white;
+  background: $glass-bg;
   box-shadow: $shadow;
   h1 {
     margin: 0;
-    font-size: 20px;
+    font-size: 2em;
   }
 }
 
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
 .app-main {
-  padding: 24px;
+  padding: 1em;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.board-container {
+  display: flex;
+  height: 100%;
 }
 
 footer {
@@ -35,7 +56,8 @@ footer {
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 5px;
-  background: white;
+  padding: 1em;
+  background: $glass-bg;
   box-shadow: $shadow;
+  margin-top: auto;
 }

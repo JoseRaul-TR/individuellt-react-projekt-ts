@@ -8,16 +8,18 @@ const ColumnView = () => {
 
   if (!columnId || !state.columns[columnId]) {
     return (
-      <div>
-        Column not found – <Link to="/">Back</Link>
+      <div className="page-wrapper">
+        <div style={{ textAlign: "center" }}>
+          Kolumnen hittas inte – <Link to="/">Gå tillbaka till startsidan</Link>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="page column-view">
-      <Link to="/">← Back to board</Link>
-      <div style={{ display: "flex", gap: 20, paddingTop: 20 }}>
+    <div className="page-wrapper column-view">
+      <Link to="/">Gå tillbaka till startsidan</Link>
+      <div className="board-container">
         <Column columnId={columnId} />
       </div>
     </div>
