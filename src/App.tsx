@@ -18,15 +18,16 @@ function App() {
         {/* Render main routes */}
         <Routes location={state?.background || location}>
           <Route path="/" element={<Home />} />
+          {/* Fallback in case refresh happens in "/column/:columnId" or "/task/:taskId" */}
           <Route path="/column/:columnId" element={<ColumnView />} />
-          <Route path="*" element={<NotFound />} />
-          {/* Fallback in case refresh happens in /task/:taskId */}
           <Route path="/task/:taskId" element={<TaskView />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
 
         {/* Render the task modal on top of the actual view */}
         {state?.background && (
           <Routes>
+            <Route path="/column/:columnId" element={<ColumnView />} />
             <Route path="/task/:taskId" element={<TaskView />} />
           </Routes>
         )}

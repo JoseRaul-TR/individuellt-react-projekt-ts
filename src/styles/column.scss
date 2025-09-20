@@ -21,9 +21,15 @@
 }
 
 .column-header {
+  background: $glass-bg;
+  border: 1px solid $glass-border;
+  backdrop-filter: blur(8px) saturate(180%);
+  padding: 1em 1.5em;
+  border-radius: $radius;
+  box-shadow: $glass-shadow-outer, $glass-shadow-inner;
   margin-bottom: 0.7em;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   h3 {
     margin: 0;
@@ -54,5 +60,46 @@
     &:hover {
       background: color.scale($accent, $lightness: -7%);
     }
+  }
+}
+
+.column-page-view {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(242, 242, 243, 0.9); 
+  backdrop-filter: blur(20px); 
+  z-index: 10;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.column-page-header {
+  width: 100%;
+  max-width: 420px;
+  padding-bottom: 24px;
+  text-align: left;
+}
+
+.column-page-content {
+  width: 100%;
+  max-width: 420px; 
+  height: 100%; 
+}
+
+.back-btn {
+  background: none;
+  border: 1px solid #ccc;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  
+  &:hover {
+    background: #f0f0f0;
   }
 }

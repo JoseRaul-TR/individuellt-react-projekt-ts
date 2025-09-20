@@ -40,7 +40,7 @@ export default function Board() {
     <DragDropContext onDragEnd={onDragEnd}>
       <section className="board">
         {state.columnOrder.map((colId) => (
-          <Column key={colId} columnId={colId} />
+          <Column key={colId} columnId={colId} draggable/>
         ))}
       </section>
     </DragDropContext>

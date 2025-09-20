@@ -16,6 +16,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
   return (
     <div className="task-card" onClick={handleClick}>
       <h4>{task.title}</h4>
+      <small>{task.createdAt}</small>
     </div>
   );
 };

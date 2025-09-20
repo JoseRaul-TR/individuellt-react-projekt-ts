@@ -4,7 +4,7 @@
     background: $glass-bg;
     border: 1px solid $glass-border;
     backdrop-filter: blur(8px) saturate(180%);
-    padding: 1em;
+    padding: 1em 1.5em;
     border-radius: $radius;
     box-shadow: $glass-shadow-outer, $glass-shadow-inner;
     cursor: grab;
@@ -16,5 +16,6 @@
 
     small {
         color: #666;
+        font-size: 0.8rem;
     }
 }
