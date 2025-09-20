@@ -17,10 +17,12 @@ body {
   margin: 0;
   font-family: Inter, Arial, sans-serif;
   background: $bg;
-  color: #111;
+  color: #fff;
   min-width: 100vw;
   display: flex;
   flex-direction: column;
+  background-image: $bg;
+  background-size: cover;
 }
 
 .app-header {

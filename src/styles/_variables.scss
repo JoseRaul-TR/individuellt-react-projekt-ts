@@ -1,4 +1,5 @@
-$bg: #888888;
+$bg-img-path: '../assets/background.jpg';
+$bg: url($bg-img-path);
 $column-bg: rgba(255, 255, 255, 0.9);
 $card-bg: hsl(0, 0%, 100%);
 $radius: 40px;
