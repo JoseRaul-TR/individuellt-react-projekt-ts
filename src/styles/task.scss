@@ -2,12 +2,8 @@
 @use "sass:color";
 
 .task-card {
-  background: $glass-bg;
-  border: 1px solid $glass-border;
-  backdrop-filter: blur(8px) saturate(180%);
+  @include glass-effect;
   padding: 1em 1.5em;
-  border-radius: $radius;
-  box-shadow: $glass-shadow-outer, $glass-shadow-inner;
   cursor: grab;
 
   h4 {

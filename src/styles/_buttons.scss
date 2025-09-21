@@ -1,0 +1,39 @@
+@use "variables" as *;
+@use "sass:color";
+
+.btn {
+  padding: 0.9em 1.5em;
+  border-radius: $radius;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+  text-decoration: none; // To handle <Link> or <a> tags
+  display: inline-block;
+  text-align: center;
+}
+
+.btn-primary {
+  background: $accent;
+  color: #efefef;
+
+  &:hover {
+    background: color.scale($accent, $lightness: -7%);
+  }
+}
+
+.btn-secondary {
+    background: $glass-bg;
+    border: 1px solid $glass-border;
+    color: #fff;
+    &:hover {
+      background: color.scale($glass-bg, $lightness: 10%);
+    }
+}
+.btn-close {
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #fff;
+}

@@ -47,10 +47,10 @@ export default function NewTaskForm({ columnId, onCancel }: NewTaskFormProps) {
         onChange={(e) => setDescription(e.target.value)}
       />
       <div className="form-actions">
-        <button type="submit" className="btn-save">
+        <button type="submit" className="btn btn-primary">
           Lägg till
         </button>
-        <button type="button" onClick={onCancel} className="btn-cancel">
+        <button type="button" onClick={onCancel} className="btn btn-secondary">
           Avbryt
         </button>
       </div>

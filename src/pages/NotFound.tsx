@@ -8,7 +8,7 @@ export default function NotFound() {
     >
       <h1>404 – Sidan hittas inte</h1>
       <p>Tyvärr, sidan du söker finns inte.</p>
-      <Link to="/" style={{ color: "#6c63ff", fontWeight: "bold" }}>
+      <Link to="/" className="btn btn-primary">
         Gå tillbaka till startsidan
       </Link>
     </div>

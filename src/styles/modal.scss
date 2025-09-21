@@ -1,4 +1,5 @@
 @use "variables" as *;
+@use "buttons";
 
 .modal-overlay {
   position: fixed;
@@ -30,10 +31,8 @@
 }
 
 .btn-close {
-  background: transparent;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
+  @extend .btn;
+  @extend .btn-close;
 }
 
 .modal label {

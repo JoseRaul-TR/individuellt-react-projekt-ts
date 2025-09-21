@@ -11,3 +11,11 @@ $glass-bg: rgba(255, 255, 255, 0.15);
 $glass-border: rgba(255, 255, 255, 0.5);
 $glass-shadow-inner: inset 0 4px 20px rgba(255, 255, 255, 0.3);
 $glass-shadow-outer: 0 8px 32px rgba(31, 38, 135, 0.2);
+
+@mixin glass-effect {
+  background: $glass-bg;
+  border: 1px solid $glass-border;
+  backdrop-filter: blur(10px) saturate(180%);
+  border-radius: $radius;
+  box-shadow: $glass-shadow-outer, $glass-shadow-inner;
+}

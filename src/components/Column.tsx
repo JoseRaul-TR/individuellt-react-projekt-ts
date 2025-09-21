@@ -51,7 +51,7 @@ export default function Column({
 
         <div className="column-footer">
           {!creating ? (
-            <button className="btn-add" onClick={() => setCreating(true)}>
+            <button className="btn btn-primary w-100" onClick={() => setCreating(true)}>
               Lägg till en ny uppgift
             </button>
           ) : (
