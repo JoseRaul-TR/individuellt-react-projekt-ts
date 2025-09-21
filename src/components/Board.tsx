@@ -10,7 +10,7 @@ import { FaPlus } from "react-icons/fa";
 export default function Board() {
   const { state, dispatch } = useBoard();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [formType, setFormType] = useState<"task" | "column" | "null">(null);
+  const [formType, setFormType] = useState<"task" | "column" | null>(null);
 
   // Main handler for drag and drop events.
   const onDragEnd = (result: DropResult) => {
