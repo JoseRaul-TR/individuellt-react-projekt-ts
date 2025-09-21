@@ -1,23 +1,23 @@
-import { useState } from "react";
 import { useBoard } from "../hooks/useBoard";
-import NewTaskForm from "./NewTaskForm";
 import { useNavigate, useLocation } from "react-router-dom";
 import TasksList from "./TasksList";
+import { FaPlus } from "react-icons/fa";
 
 interface ColumnProps {
   columnId: string;
   draggable?: boolean; // default true, board mode
   showDescriptions?: boolean; // default false, modal mode
+  showHeader?: boolean;
 }
 
 export default function Column({
   columnId,
   draggable = true,
   showDescriptions = false,
+  showHeader= true,
 }: ColumnProps) {
   const { state } = useBoard();
   const column = state.columns[columnId];
-  const [creating, setCreating] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -27,9 +27,9 @@ export default function Column({
   return (
     <div className="column-wrapper">
       <div className="column">
+        {showHeader && (
         <div className="column-header">
           <h3>{column.title}</h3>
-
           {/* + button opens ColumnView as modal */}
           <button
             className="btn-open-modal"
@@ -39,28 +39,16 @@ export default function Column({
               })
             }
           >
-            +
+            <FaPlus />
           </button>
         </div>
+        )}
 
         <TasksList
           columnId={columnId}
           draggable={draggable}
           showDescriptions={showDescriptions}
         />
-
-        <div className="column-footer">
-          {!creating ? (
-            <button className="btn btn-primary w-100" onClick={() => setCreating(true)}>
-              Lägg till en ny uppgift
-            </button>
-          ) : (
-            <NewTaskForm
-              columnId={columnId}
-              onCancel={() => setCreating(false)}
-            />
-          )}
-        </div>
       </div>
     </div>
   );

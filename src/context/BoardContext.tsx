@@ -1,6 +1,6 @@
 import React, { createContext, useReducer, useEffect } from "react";
 import type { BoardState, Task, Column } from "../types/types";
-import { userId } from "../utils/id";
+import { createId } from "../utils/id";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 
 type Action =
@@ -72,7 +72,7 @@ export const BoardContext = createContext<{
 function boardReducer(state: BoardState, action: Action): BoardState {
   switch (action.type) {
     case "ADD_TASK": {
-      const id = userId("t-");
+      const id = createId("t-");
       const createdAt = new Date().toISOString().slice(0, 10);
       const task: Task = {
         id,
@@ -163,7 +163,7 @@ function boardReducer(state: BoardState, action: Action): BoardState {
     }
 
     case "ADD_COLUMN": {
-      const id = userId("col-");
+      const id = createId("col-");
       const newColumn: Column = {
         id,
         title: action.payload.title,

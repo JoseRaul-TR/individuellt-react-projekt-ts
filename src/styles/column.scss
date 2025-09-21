@@ -26,6 +26,20 @@
   h3 {
     margin: 0;
   }
+  .btn-open-modal {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #fff;
+    font-size: 1.2rem;
+    transition: transform 0.2s, color 0.2s;
+    margin-left: auto; // Pushes the button to the right
+
+    &:hover {
+      transform: scale(1.2);
+      color: #ccc;
+    }
+  }
 }
 
 .tasks-list {

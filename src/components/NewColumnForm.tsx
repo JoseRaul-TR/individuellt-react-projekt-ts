@@ -3,14 +3,13 @@ import { useBoard } from "../hooks/useBoard";
 import { FaTimes } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa6";
 
-interface NewTaskFormProps {
-  columnId: string;
+interface NewColumnFormProps {
   onCancel: () => void;
 }
-export default function NewTaskForm({ columnId, onCancel }: NewTaskFormProps) {
+
+export default function NewColumnForm({ onCancel }: NewColumnFormProps) {
   const { dispatch } = useBoard();
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,11 +18,9 @@ export default function NewTaskForm({ columnId, onCancel }: NewTaskFormProps) {
     }
 
     dispatch({
-      type: "ADD_TASK",
+      type: "ADD_COLUMN",
       payload: {
-        columnId,
         title,
-        description,
       },
     });
 
@@ -33,12 +30,12 @@ export default function NewTaskForm({ columnId, onCancel }: NewTaskFormProps) {
   return (
     <div className="modal-overlay" onClick={onCancel}>
       <form
-        className="modal new-task-form"
+        className="modal new-column-form"
         onSubmit={handleSubmit}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="modal-header">
-          <h2>Ny Uppgift</h2>
+          <h2>Ny Kolumn</h2>
           <button type="button" className="btn-close" onClick={onCancel}>
             <FaTimes />
           </button>
@@ -46,18 +43,14 @@ export default function NewTaskForm({ columnId, onCancel }: NewTaskFormProps) {
         <input
           type="text"
           value={title}
-          placeholder="Upgift titel..."
+          placeholder="Kolumnens titel..."
           onChange={(e) => setTitle(e.target.value)}
-        />
-        <textarea
-          placeholder="Uppgiftens beskrivning"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
         />
         <div className="form-actions">
           <button type="submit" className="btn btn-primary">
             <FaPlus />
           </button>
+
         </div>
       </form>
     </div>

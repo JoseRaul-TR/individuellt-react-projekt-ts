@@ -1,5 +1,6 @@
 @use "variables" as *;
 @use "buttons";
+@use "sass:color";
 
 .modal-overlay {
   position: fixed;
@@ -33,6 +34,34 @@
 .btn-close {
   @extend .btn;
   @extend .btn-close;
+}
+
+.modal-actions-fixed {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  gap: 5px;
+  z-index: 1001; // Ensure buttons are on top
+}
+
+.icon-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: scale(1.1);
+  }
 }
 
 .modal label {
