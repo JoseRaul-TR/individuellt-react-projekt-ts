@@ -5,6 +5,7 @@
 .column-wrapper {
   @include glass-effect;
   flex: 1;
+  min-width: 280px;
   display: flex;
   flex-direction: column;
 }

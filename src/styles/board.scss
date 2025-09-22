@@ -7,6 +7,7 @@
   gap: 2em;
   align-items: stretch;
   height: 100%;
+  overflow-x: auto;
 }
 
 .add-menu-wrapper {
@@ -35,14 +36,19 @@
   z-index: 1000;
 
   &:hover {
-    transform: scale(1.05);
+    transform: scale(1.10);
   }
 }
 
 .add-menu-options {
+  position: absolute;
+  bottom: 100%; /* Position the menu above the button */
+  right: 0; /* Align the menu to the right edge of the wrapper */
+  margin-bottom: 1rem; /* Add some space between the menu and the button */
+
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-end; /* Align the options to the right, stacking them */
   gap: 0.5rem;
   margin-top: -1rem;
 }
@@ -65,6 +71,16 @@
 @media (max-width: 900px) {
   .board {
     flex-direction: column;
-    align-items: center;
+    align-items: center; /* Center the columns */
+  }
+
+  .column-wrapper {
+    width: 90%; /* Give columns a specific width in this layout */
+    max-width: 400px; /* Prevent them from getting too wide on tablets */
+  }
+
+  .add-menu-wrapper {
+    bottom: 1rem;
+    right: 1rem;
   }
 }

@@ -19,8 +19,17 @@
   box-shadow: $glass-shadow-outer;
   padding: 1.2em;
   border-radius: $radius;
-  width: 420px;
-  max-width: calc(100% - 32px);
+  width: 35%;
+  height: 50%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   overflow-y: auto;
 }
 
@@ -29,11 +38,16 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
+  h2 {
+    margin: 0;
+  }
 }
 
 .btn-close {
   @extend .btn;
   @extend .btn-close;
+  margin: 0;
+  padding: 0.5em;
 }
 
 .modal-actions-fixed {
@@ -75,11 +89,16 @@
   padding: 8px;
   border-radius: 6px;
   border: 1px solid #ddd;
+  margin: 1em 0;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .modal-actions {
   display: flex;
-  gap: 8px;
+  gap: 1.2em;
   justify-content: flex-end;
+  align-items: center;
   margin-top: 12px;
 }

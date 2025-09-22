@@ -6,19 +6,17 @@
   padding: 0;
 }
 
-html,
-body,
-#root,
-.app {
-  min-height: 100%;
+body, .root {
+  min-height: 100vh;
+  min-width: 100vw;
 }
 
-body {
+.app {
   margin: 0;
   font-family: Inter, Arial, sans-serif;
   background: $bg;
   color: #fff;
-  min-width: 100vw;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   background-image: $bg;
@@ -44,16 +42,19 @@ body {
 
 .app-main {
   padding: 1em;
-  flex: 1;
+  flex-grow: 1;
 }
 
 .board-container {
   display: flex;
+  flex-direction: column;
   height: 100%;
 }
 
 footer {
   display: flex;
+  flex-direction: column;
+  width: 100%;
   align-items: center;
   justify-content: center;
   text-align: center;
